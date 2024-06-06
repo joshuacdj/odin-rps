@@ -28,6 +28,8 @@ function getComputerChoice() {
     
 // }
 
+const result = document.querySelector(".results");
+
 let humanScore = 0;
 let computerScore = 0;
 
@@ -36,23 +38,49 @@ function playRound(humanChoice, computerChoice) {
     humanChoice = humanChoice.toLowerCase();
     computerChoice = computerChoice.toLowerCase();
 
-    alert("Computer chose " + computerChoice);
+    // reset the div to empty each time playRound is called
+    while(result.firstChild){
+        result.removeChild(result.firstChild);
+    }
+
+    compChoice = document.createElement("p");
+    compChoice.textContent = "Computer chose " + computerChoice;
+
+    result.append(compChoice);
+
+
+    resultText = document.createElement("p");
 
     if (humanChoice === computerChoice) {
-        alert("It's a tie!");
+        resultText.textContent = "It's a tie!";
     } else if ((humanChoice === "rock" && computerChoice === "scissors")
                 || (humanChoice === "scissors" && computerChoice === "paper")
                 || (humanChoice === "paper" && computerChoice === "rock")) {
 
-        alert("You win! " + humanChoice + " beats " + computerChoice);
+        resultText.textContent = "You win! " + humanChoice + " beats " + computerChoice;
 
         humanScore++;
     } else {
 
-        alert("You lose! " + computerChoice + " beats " + humanChoice);
+        resultText.textContent = "You lose! " + computerChoice + " beats " + humanChoice;
 
         computerScore++;
 
+    }
+
+    resultText.textContent += "| Score: [You: " + humanScore + "] " + "[Computer: " + computerScore + "]";
+
+    result.append(resultText);
+
+    if (humanScore == 5) {
+        alert("You have won the game!");
+    } else if (computerScore == 5) {
+        alert("Computer has won the game!");
+    }
+
+    if (humanScore == 5 || computerScore == 5) {
+        humanScore = 0;
+        computerScore = 0;
     }
 }
 
@@ -66,6 +94,8 @@ buttons.forEach(function(button) {
 
         playRound(choice, getComputerChoice());
     });
+
+
 });
 
 
